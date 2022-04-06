@@ -48,12 +48,12 @@ if($MyRedireccion->getTotal() > 0)
 
 
 $MyFrankyMonster->setPHPFile(getVista("admin/template/grid.phtml"));
-$title_grid = "Redirecciones 301";
+$title_grid = _seo("Redirecciones 301");
 $class_grid = "cont_301";
 $deleteFunction = "EliminarRedireccion";
-$error_grid = "No hay redireccionamientos registrados";
+$error_grid = _seo("No hay redireccionamientos registrados");
 $frm_constante_link = FRM_REDIRECCIONES_301;
-$titulo_columnas_grid = array("fecha" => "Fecha","url" => "Url", "redireccion" =>  "Redirección");
+$titulo_columnas_grid = array("fecha" => _seo("Fecha"),"url" => _seo("Url"), "redireccion" =>  _seo("Redirección"));
 $value_columnas_grid = array("fecha" ,"url" , "redireccion");
 
 

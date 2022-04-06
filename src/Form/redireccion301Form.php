@@ -25,7 +25,7 @@ class redireccion301Form extends \Franky\Form\Form
 
         $this->add(array(
                 'name' => 'url',
-                'label' => 'Url 404:',
+                'label' => _seo('Url 404'),
                 'type'  => 'text',
                 'required'  => true,
                 'atributos' => array(
@@ -41,7 +41,7 @@ class redireccion301Form extends \Franky\Form\Form
 
          $this->add(array(
                 'name' => 'redireccion',
-                'label' => 'Redireccion 301:',
+                'label' => _seo('Redireccion 301'),
                 'type'  => 'text',
                 'required'  => true,
                 'atributos' => array(
@@ -60,7 +60,7 @@ class redireccion301Form extends \Franky\Form\Form
                'type'  => 'submit',
                'atributos' => array(
                    'class'       => 'btn btn-primary btn-big float_right',
-                   'value' => "Guardar"
+                   'value' => _seo("Guardar")
                 )
 
            )

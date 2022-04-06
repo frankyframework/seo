@@ -70,12 +70,12 @@ $MyFiltrosForm->setOptionsInput("lang_b", $idiomas);
 $MyFiltrosForm->setData($MyRequest->getRequest());
 $MyFiltrosForm->setAtributoInput("lang_b","value",$SeoEntity->lang());
 
-$title_grid = "SEO";
+$title_grid = _seo("SEO");
 $class_grid = "cont_seo";
-$error_grid = "No hay metatags registrados";
+$error_grid = _seo("No hay metatags registrados");
 $deleteFunction = "EliminarSeo";
 $frm_constante_link = FRM_SEO;
-$titulo_columnas_grid = array("nombre" => "Nombre","titulo" => "Título", "descripcion" =>  "Descripción", "keywords" => "Keywords");
+$titulo_columnas_grid = array("nombre" => _seo("Nombre"),"titulo" => _seo("Título"), "descripcion" =>  _seo("Descripción"), "keywords" => _seo("Keywords"));
 $value_columnas_grid = array("nombre","titulo" , "descripcion" , "keywords" );
 
 $css_columnas_grid = array("nombre" => "w-xxxx-2" ,"titulo" => "w-xxxx-2", "descripcion" => "w-xxxx-3","keywords" => "w-xxxx-3" );

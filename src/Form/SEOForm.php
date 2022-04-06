@@ -24,7 +24,7 @@ class SEOForm extends \Franky\Form\Form
 
        $this->add(array(
                 'name' => 'id_franky',
-                'label' => 'Página:',
+                'label' => _seo('Página'),
                 'type'  => 'select',
                 'required'  => true,
                 'atributos' => array(
@@ -40,7 +40,7 @@ class SEOForm extends \Franky\Form\Form
 
         $this->add(array(
                 'name' => 'titulo',
-                'label' => 'Metatag Titulo:',
+                'label' => _seo('Metatag Titulo'),
                 'type'  => 'text',
                 'required'  => true,
                 'atributos' => array(
@@ -56,13 +56,13 @@ class SEOForm extends \Franky\Form\Form
 
           $this->add(array(
                 'name' => 'descripcion',
-                'label' => 'Metatag descripcion:',
+                'label' => _seo('Metatag descripcion'),
                 'type'  => 'textarea',
                 'required'  => true,
                 'atributos' => array(
                     'class' => 'required',
                     'rows'  => 5,
-                    'placeholder' => 'Recuerda que el optimo son 160 caracteres.'
+                    'placeholder' => _seo('Recuerda que el optimo son 160 caracteres.')
                  ),
                 'label_atributos' => array(
                     'class'       => 'desc_form_obligatorio'
@@ -73,13 +73,13 @@ class SEOForm extends \Franky\Form\Form
 
         $this->add(array(
             'name' => 'extra_name[]',
-            'label' => 'Nombre metatag:',
+            'label' => _seo('Nombre metatag'),
             'type'  => 'text',
             'required'  => true,
             'atributos' => array(
                 'class'       => 'required',
                 'maxlength' => 70,
-                'placeholder' => 'Nombre de la mataetiqueta'
+                'placeholder' => _seo('Nombre de la mataetiqueta')
              ),
             'label_atributos' => array(
                 'class'       => 'desc_form_obligatorio'
@@ -89,13 +89,13 @@ class SEOForm extends \Franky\Form\Form
 
         $this->add(array(
             'name' => 'extra_scheme[]',
-            'label' => 'Scheme metatag:',
+            'label' => _seo('Scheme metatag'),
             'type'  => 'text',
             'required'  => false,
             'atributos' => array(
                 'class'       => '',
                 'maxlength' => 70,
-                'placeholder' => 'Tipo de scheme de la mataetiqueta'
+                'placeholder' => _seo('Tipo de scheme de la mataetiqueta')
              ),
             'label_atributos' => array(
                 'class'       => 'desc_form_no_obligatorio'
@@ -105,7 +105,7 @@ class SEOForm extends \Franky\Form\Form
 
         $this->add(array(
             'name' => 'extra_type[]',
-            'label' => 'tipo propiedad:',
+            'label' => _seo('tipo propiedad'),
             'type'  => 'select',
             'required'  => true,
                 
@@ -125,7 +125,7 @@ class SEOForm extends \Franky\Form\Form
 
         $this->add(array(
             'name' => 'extra_value[]',
-            'label' => 'Valor:',
+            'label' => _seo('Valor'),
             'type'  => 'textarea',
             'required'  => true,
             'atributos' => array(
@@ -141,7 +141,7 @@ class SEOForm extends \Franky\Form\Form
 
           $this->add(array(
                 'name' => 'keywords',
-                'label' => 'Metatag keywords:',
+                'label' => _seo('Metatag keywords'),
                 'type'  => 'textarea',
                 'required'  => false,
                 'atributos' => array(
@@ -159,7 +159,7 @@ class SEOForm extends \Franky\Form\Form
         $this->add(array(
                 'name' => "lang",
                 'type'  => 'select',
-                'label' => 'Idioma:',
+                'label' => _seo('Idioma'),
                 'required'  => true,
                 'atributos' => array(
                     'class'       => 'required',
@@ -177,7 +177,7 @@ class SEOForm extends \Franky\Form\Form
                 'type'  => 'submit',
                 'atributos' => array(
                     'class'       => 'btn btn-primary btn-big float_right',
-                    'value' => "Guardar"
+                    'value' => _seo("Guardar")
                  )
 
             )
