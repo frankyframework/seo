@@ -1,7 +1,7 @@
 <?php
 include 'lca.php';
 include 'util.php';
-bindtextdomain("seo", 'seo');
+__bindtextdomain("seo", 'seo');
 
 
 if (function_exists('bind_textdomain_codeset')) 
