@@ -59,7 +59,7 @@ $value_columnas_grid = array("fecha" ,"url" , "redireccion");
 
 $css_columnas_grid = array("fecha" => "w-xxxx-2" ,"url" => "w-xxxx-4", "redireccion" => "w-xxxx-4" );
 
-$permisos_grid = ADMINISTRAR_REDIRECCIONES_301;
+$permisos_grid = "administrar_redirecciones_301";
 $MyFiltrosForm = new filtrosForm('paginar');
 $MyFiltrosForm->setMobile($Mobile_detect->isMobile());
 $MyFiltrosForm->addBusca();

@@ -18,7 +18,7 @@ if(!$valid)
     $error = true;
 }
 
-if(!$MyAccessList->MeDasChancePasar(ADMINISTRAR_SEO))
+if(!$MyAccessList->MeDasChancePasar("administrar_seo"))
 {
     $MyFlashMessage->setMsg("error",$MyMessageAlert->Message("sin_privilegios"));
     $error = true;

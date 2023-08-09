@@ -21,7 +21,7 @@ if($MyRedireccion->existe($redireciconesEntity->getUrl(),$redireciconesEntity->g
     $error = true;
 }
 
-if(!$MyAccessList->MeDasChancePasar(ADMINISTRAR_REDIRECCIONES_301))
+if(!$MyAccessList->MeDasChancePasar("administrar_redirecciones_301"))
 {
     $MyFlashMessage->setMsg("error",$MyMessageAlert->Message("sin_privilegios"));
     $error = true;

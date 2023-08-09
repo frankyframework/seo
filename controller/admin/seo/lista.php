@@ -79,7 +79,7 @@ $titulo_columnas_grid = array("nombre" => _seo("Nombre"),"titulo" => _seo("Títu
 $value_columnas_grid = array("nombre","titulo" , "descripcion" , "keywords" );
 
 $css_columnas_grid = array("nombre" => "w-xxxx-2" ,"titulo" => "w-xxxx-2", "descripcion" => "w-xxxx-3","keywords" => "w-xxxx-3" );
-$permisos_grid = ADMINISTRAR_SEO;
+$permisos_grid = "administrar_seo";
 
 
 ?>

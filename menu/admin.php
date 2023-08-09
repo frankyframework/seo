@@ -7,12 +7,12 @@ return array(
    
 
     array(
-     "permiso" =>   ADMINISTRAR_SEO,
+     "permiso" =>   "administrar_seo",
      "url" => $MyRequest->url(ADMIN_SEO),
      "etiqueta" => _("Administrar SEO")
     ),
     array(
-     "permiso" =>   ADMINISTRAR_REDIRECCIONES_301,
+     "permiso" =>   "administrar_redirecciones_301",
      "url" => $MyRequest->url(LISTA_REDIRECCIONES_301),
      "etiqueta" => _("Administrar redirecciones 301")
     ),

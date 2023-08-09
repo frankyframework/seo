@@ -11,7 +11,7 @@ function EliminarRedireccion($id,$status)
         $redireccionEntity->setId($id);
         $redireccionEntity->setStatus($status);
         $respuesta = null;
-        if($MyAccessList->MeDasChancePasar(ADMINISTRAR_REDIRECCIONES_301))
+        if($MyAccessList->MeDasChancePasar("administrar_redirecciones_301"))
         {
             if($MyRedireccion->save($redireccionEntity->getArrayCopy()) == REGISTRO_SUCCESS)
             {
@@ -38,7 +38,7 @@ function EliminarSeo($id,$status)
         $MySeo              = new \Seo\model\SeoModel();
         $SeoEntity              = new \Seo\entity\SeoEntity();
         $respuesta = null;
-        if($MyAccessList->MeDasChancePasar(ADMINISTRAR_SEO))
+        if($MyAccessList->MeDasChancePasar("administrar_seo"))
         {
             $SeoEntity->id(addslashes($id));
             $SeoEntity->status(addslashes($status));
