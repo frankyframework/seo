@@ -38,8 +38,10 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    window.dataExtraTags = <?=json_encode($data_extra_metats)?>;
+</script>
 <script >
-
 $(document).ready(function(){
     
         $("#frmseo").validate()
@@ -53,17 +55,13 @@ $(document).ready(function(){
 
         });
         
-        <?php if(!empty($data_extra_metats)): ?>
-                <?php foreach($data_extra_metats as $key => $metats): ?>
-                        $('.add_meta').click();
-                        $('select[name="extra_type[]"]').eq(<?=$key+1?>).val('<?=$metats['type']; ?>');
-                        $('input[name="extra_name[]"]').eq(<?=$key+1?>).val('<?=$metats['name']; ?>');
-                        $('input[name="extra_scheme[]"]').eq(<?=$key+1?>).val('<?=$metats['scheme']; ?>');
-                              $('textarea[name="extra_value[]"]').eq(<?=$key+1?>).val('<?= (utf8_decode($metats['value'])) ?>');
-                <?php endforeach; ?>
-        
-        <?php endif;?>
-
+        $.each(window.dataExtraTags,function(key, val) {
+            $('.add_meta').click();
+            $('select[name="extra_type[]"]').eq(key+1).val(window.dataExtraTags[key]['type']);
+            $('input[name="extra_name[]"]').eq(key+1).val(window.dataExtraTags[key]['name']);
+            $('input[name="extra_scheme[]"]').eq(key+1).val(window.dataExtraTags[key]['scheme']);
+            $('textarea[name="extra_value[]"]').eq(key+1).val(window.dataExtraTags[key]['value']);
+        });
 });
 
 </script>
