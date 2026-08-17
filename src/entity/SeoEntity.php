@@ -25,7 +25,7 @@ class SeoEntity
 
     public function exchangeArray($data)
     {
-        $this->id = (isset($data["id"]) ? $data["id"] : null);
+        $this->id = (isset($data["id"]) && !empty($data["id"]) ? $data["id"] : null);
         $this->id_franky = (isset($data["id_franky"]) ? $data["id_franky"] : null);
         $this->titulo = (isset($data["titulo"]) ? $data["titulo"] : null);
         $this->descripcion = (isset($data["descripcion"]) ? $data["descripcion"] : null);
