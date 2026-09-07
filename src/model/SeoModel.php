@@ -9,27 +9,62 @@ class SeoModel  extends \Franky\Database\Mysql\objectOperations
         $this->from()->addTable('seo');
     }
     
-    function getData($seo = array(),$franky = array(),$busca = "")
+    function getData($seo = array(),$franky = array())
     {
         $seo = $this->optimizeEntity($seo);
         $franky = $this->optimizeEntity($franky);
         $campos = ["seo.id","id_franky","titulo","descripcion","keywords","seo.status","fecha","lang","nombre","extra"];
 
-         $this->where()->addAnd("franky.status",'1','=');
-
-         foreach($seo as $k => $v)
-         {
-             $this->where()->addAnd("seo.".$k,$v,'=');
-         }
-         foreach($franky as $k => $v)
-         {
-             $this->where()->addAnd("franky.".$k,$v,'=');
-         }
-
-        if(!empty($busca))
+        foreach($seo as $k => $v)
         {
-           $this->where()->addAnd("nombre","%$busca%",'like');
+              if(!empty($v) || is_numeric($v))
+            {
+                if(is_array($v))
+                {
+                    $this->where()->concat('AND (');
+                    foreach ($v as $_v)
+                    {
+                        $this->where()->addOr('seo.'.$k,$_v,'=');
+
+                    }
+                    $this->where()->concat(')');
+                }
+                else
+                {
+                    if(in_array($k,['id','id_franky','status','fecha'])) {
+                        $this->where()->addAnd('seo.'.$k,$v,'=');
+                    } else {
+                        $this->where()->addAnd('seo.'.$k,"%".$v."%",'like');
+                    }
+                } 
+            }
         }
+        foreach($franky as $k => $v)
+        {
+              if(!empty($v) || is_numeric($v))
+            {
+                if(is_array($v))
+                {
+                    $this->where()->concat('AND (');
+                    foreach ($v as $_v)
+                    {
+                        $this->where()->addOr('franky.'.$k,$_v,'=');
+
+                    }
+                    $this->where()->concat(')');
+                }
+                else
+                {
+                    if(in_array($k,['id','status','fecha'])) {
+                        $this->where()->addAnd('franky.'.$k,$v,'=');
+                    } else {
+                        $this->where()->addAnd('franky.'.$k,"%".$v."%",'like');
+                    }
+                } 
+            }
+        }
+
+     
 
         $this->from()->addInner('franky','seo.id_franky','franky.id');
 
