@@ -1,0 +1,115 @@
+
+<div class="content">
+
+    <div class="w-xxxx-12"><?php echo breadcrumbs(); ?> </div>
+
+        <div class="w-xxxx-12 cont_global_admin">
+        <h1 class="titulo_seccion_admin"><?php echo _('Redirecciones'); ?></h1>
+
+        <div class="w-xxxx-12 cont_header_panel">
+            <div class="_wrapp_form_serch">
+                <form name="buscarGrid" action="" method="get" id="paginar">                
+                    <div class="form-group form_buscar"><input type="submit" name="buscar" class="_btn _primary" id="btsSearchGridAdmin" value="Buscar"></div>
+                </form>
+                <a href="<?php echo $MyRequest->url(FRM_REDIRECCIONES_301); ?>" class="_btn_new">Nuevo</a>
+           
+            </div>
+        </div>
+
+        <div  class="w-xxxx-12 cont_gral_admin cont_seo">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+        </div>
+    </div>
+</div>
+<?php
+$idiomas = array();
+        
+$idiomas_disponibles = getCoreConfig('base/theme/langs');
+
+foreach($idiomas_disponibles as $idioma)
+{
+    $idiomas[$idioma] = $idioma;
+}
+
+?>
+<script>
+$(window).load(function(){
+    var isGridMobile = ($(window).width() <= 767 ? true : false);
+
+    var  langsData = <?= json_encode($idiomas)?>;
+    langsData = Object.entries(langsData)
+    .map(([id, nombre]) => `${id}:${nombre}`)
+    .join(';');
+
+
+    $("#jqGrid").GridAdmin({
+        search : true,
+        entity : 'redirecciones',
+        redirectOnSelectRow:true,
+        gridPager : "#jqGridPager",
+        btnSearch: "#btsSearchGridAdmin",
+        redirectPath : '<?=$MyRequest->link(FRM_REDIRECCIONES_301)?>',
+        pathData : '<?=$MyRequest->url(LISTA_REDIRECCIONES_301)?>',
+        error : "<?=_('No hay registros')?>",
+        deleteFunction : "EliminarRedireccion",
+        colModel: [
+            { label: '<?=_('ID')?>', name: 'id', key:true, hidden:true, width: 50 },
+            { label: '<?=_('Callback')?>', name: 'callback',  hidden:true, width: 50 },
+            { label: '<?=_('Status')?>', name: 'status',  hidden:true, width: 50 },
+            { label: '<?=_('Url')?>', name: 'url', width: 300 },
+            { label: '<?=_('Redireccion')?>', name: 'redireccion',hidden:isGridMobile, width: 300 },
+            { label: '<?=_('Fecha')?>', name: 'fecha', width: 200,
+                
+                searchoptions: {
+                    dataInit: function (element) {
+                        $(element).datepicker({
+                            id: 'orderDate_datePicker',
+                            dateFormat:"yy-mm-dd",
+                            maxDate: "+0D",
+                            showOn: 'focus'
+                        });
+                    },
+                    sopt: ["ge","le","eq"]
+                }
+            },
+            { 
+            name: 'acciones', 
+            index: 'acciones', 
+            width: 200, 
+            align: 'center', 
+            sortable: false, 
+            search: false,
+            formatter: creadorDeBotones 
+            }
+        ],
+        subGrid: isGridMobile,
+        subGridRowExpanded: showChildGrid,
+        width:1020
+    });
+ });
+
+ function creadorDeBotones(cellvalue, options, rowObject) {
+    
+    var id = options.rowId; 
+     
+    var icon_delete = (rowObject.status  == "activar" ? 'icon-c-encender' : 'icon-r-eliminar');
+    var boton1 = '<a href="<?=$MyRequest->link(FRM_REDIRECCIONES_301)?>?id=' + id + '&callback='+rowObject.callback+'" class="btn_adm_editar"><span class="icon icon-editar"> </span></a> ';
+    var boton2 = '<a class="btn_adm_eliminar " data-id="'+id+'" href="#'+rowObject.status+'"><span class="icon '+icon_delete+'"> </span></a>';
+  
+    return boton1 + boton2;
+}
+
+function showChildGrid(parentRowID, parentRowKey) {
+    var childGridID = parentRowID + "_table";
+    var childGridPagerID = parentRowID + "_pager";
+    
+    if($(window).width() <= 767) {
+      
+        var redireccion  = $(this).find('#' + parentRowKey + ' td[aria-describedby$="_redireccion"]').text();
+        $('#' + parentRowID).append('<p>Redireccion: '+redireccion+'</p>');
+       
+    }
+}
+
+</script>

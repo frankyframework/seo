@@ -1,17 +1,22 @@
 <?php
 use Seo\Form\redireccion301Form;
+use \Base\entity\redireccionesEntity;
+use Franky\Haxor\Tokenizer;
 
-$id		= $MyRequest->getRequest('id');
+$Tokenizer = new Tokenizer();
+$id         = $Tokenizer->decode($MyRequest->getRequest('id'));
 $callback	= $MyRequest->getRequest('callback');
 $data           = $MyFlashMessage->getResponse();
 
 $adminForm = new redireccion301Form("frmredireccion");
-
+$redireccionesEntity      = new redireccionesEntity();
 
 if(!empty($id))
 {
-        $result	 = $MyRedireccion->getData($id);
+        $redireccionesEntity->setId($id);
+        $result	 = $MyRedireccion->getData($redireccionesEntity->getArrayCopy());
 	$data = $MyRedireccion->getRows();
+        $data["id"] = $Tokenizer->token('seo-redirect',$data["id"]);
         $adminForm->addId();
 }
 

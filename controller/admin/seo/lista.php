@@ -2,8 +2,7 @@
 use Seo\model\SeoModel;
 use Seo\entity\SeoEntity;
 use Base\entity\OrganosEntity;
-
-
+use Franky\Haxor\Tokenizer;
 
 
 if ($MyRequest->isAjax()) {
@@ -27,6 +26,7 @@ if ($MyRequest->isAjax()) {
     $MySeo = new SeoModel();
     $OrganosEntity = new OrganosEntity($request);
     $SeoEntity = new SeoEntity($request);
+    $Tokenizer = new Tokenizer();
     $SeoEntity->lang($lang_b);
 
 
@@ -47,7 +47,9 @@ if ($MyRequest->isAjax()) {
             }, ARRAY_FILTER_USE_KEY);
 
             $dataRows['rows'][] = array_merge($registro,array(
-                    "status"  => ($registro["status"] == 1 ? "desactivar" : "activar")
+                    "status"  => ($registro["status"] == 1 ? "desactivar" : "activar"),
+                    "callback" => $Tokenizer->token('seo',$MyRequest->getURI()),
+                    "id" => $Tokenizer->token('seo',$registro["id"])
                     ));
                     $iRow++;
        }

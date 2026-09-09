@@ -2,8 +2,16 @@
 use Franky\Core\validaciones; 
 use Seo\model\SeoModel;
 use Seo\entity\SeoEntity;
+use Franky\Haxor\Tokenizer;
+
+$Tokenizer = new Tokenizer();
+
+$id                 = $Tokenizer->decode($MyRequest->getRequest('id'));
+$callback           = $Tokenizer->decode($MyRequest->getRequest('callback'));
+
 
 $SeoEntity = new SeoEntity($MyRequest->getRequest());
+$SeoEntity->id($id);
 $extra_type = $MyRequest->getRequest('extra_type');
 $extra_name = $MyRequest->getRequest('extra_name');
 $extra_value = $MyRequest->getRequest('extra_value');

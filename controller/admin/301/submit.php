@@ -2,11 +2,18 @@
 
 use Franky\Core\validaciones;
 use Base\entity\redireccionesEntity;
+use Franky\Haxor\Tokenizer;
+
+$Tokenizer = new Tokenizer();
+
+$id                 = $Tokenizer->decode($MyRequest->getRequest('id'));
+$callback           = $Tokenizer->decode($MyRequest->getRequest('callback'));
+
 
 $error = false;
 $redireciconesEntity = new redireccionesEntity($MyRequest->getRequest());
 
-
+$redireciconesEntity->setId($id);
 $validaciones =  new validaciones();
 $valid = $validaciones->validRules($redireciconesEntity->setValidation());
 if(!$valid)
@@ -30,10 +37,11 @@ if(!$MyAccessList->MeDasChancePasar("administrar_redirecciones_301"))
 if($error == false)
 {
     $id = $redireciconesEntity->getId();
+    $redireciconesEntity->setFecha(date('Y-m-d H:i:s'));
     if(empty($id))
     {
         $redireciconesEntity->setStatus(1);
-        $redireciconesEntity->setFecha(date('Y-m-d H:i:s'));
+        
     }
 
 

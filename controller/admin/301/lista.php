@@ -1,69 +1,57 @@
 <?php
-use Base\Form\filtrosForm;
-use Franky\Core\paginacion;
-$MyPaginacion = new paginacion();
+use Base\entity\redireccionesEntity;
+use Base\model\redireccionesModel;
+use Franky\Haxor\Tokenizer;
 
-$MyPaginacion->setPage($MyRequest->getRequest('page',1));
-$MyPaginacion->setCampoOrden($MyRequest->getRequest('por',"fecha"));
-$MyPaginacion->setOrden($MyRequest->getRequest('order',"DESC"));
-$MyPaginacion->setTampageDefault($MyRequest->getRequest('tampag',25));
-$busca_b	= $MyRequest->getRequest('busca_b');
+if ($MyRequest->isAjax()) {
+        $callback	= $MyRequest->getRequest('callback');
+        $filters = $MyRequest->getRequest('filters');
+        $dataPost = json_decode(stripslashes($filters),true);
+        $dataPost = $dataPost['rules'];
+        $requestFranky = [];
+        $request = [];
+        foreach($dataPost as $data) {
+                $request[$data['field']] = $MyRequest->Sanitizacion($data['data']);
+        }        
+        $sortInput  = (!empty($MyRequest->getRequest('sidx',"fecha")) ? : "fecha");
 
-$MyRedireccion->setPage($MyPaginacion->getPage());
-$MyRedireccion->setTampag($MyPaginacion->getTampageDefault());
-$MyRedireccion->setOrdensql($MyPaginacion->getCampoOrden()." ".$MyPaginacion->getOrden());
+        $redireccionesModel = new redireccionesModel();
+        $redireccionesEntity = new redireccionesEntity($request);
+        $Tokenizer = new Tokenizer();
 
+        $redireccionesModel->setPage($MyRequest->getRequest('page',1));
+        $redireccionesModel->setTampag($MyRequest->getRequest('rows',12));
+        $redireccionesModel->setOrdensql($sortInput." ".$MyRequest->getRequest('sord',"ASC"));
 
-$result	 = $MyRedireccion->getData("",$busca_b);
-$MyPaginacion->setTotal($MyRedireccion->getTotal());
+        $result	 = $redireccionesModel->getData($redireccionesEntity->getArrayCopy());
+        $dataRows = ["rows" => [], "total" => ceil($redireccionesModel->getTotal() / $MyRequest->getRequest('rows',12)), "page" => (int)$MyRequest->getRequest('page',1),"records" => $redireccionesModel->getTotal()];
+    
+        if($redireccionesModel->getTotal() > 0)
+        {
 
+                while($registro = $redireccionesModel->getRows())
+                {
+                        $registro = array_filter($registro, function($llave) {
+                                return !is_numeric($llave);
+                        }, ARRAY_FILTER_USE_KEY);
+                        
 
-$lista_admin_data = array();
-if($MyRedireccion->getTotal() > 0)
-{
+                        $dataRows['rows'][]= array_merge($registro,array(
+                        "id" => $Tokenizer->token('seo-redirec',$registro["id"]),
+                        "fecha"         => getFechaUI($registro['fecha']),
+                        "status"  => ($registro["status"] == 1 ? "desactivar" : "activar"),
+                        "callback" => $Tokenizer->token('seo-redirec',$MyRequest->getURI()),
+                        ));
 
-	$iRow = 0;
-
-	while($registro = $MyRedireccion->getRows())
-	{
-		$thisClass  = ((($iRow % 2) == 0) ? "formFieldDk" : "formFieldLt");
-
-                $p = explode(" ", $registro["fecha"]);
-                $f = explode("-", $p[0]);
-                $fecha = $f[2] . " " . $_Months[$f[1]] . " " . $f[0] . " " . substr($p[1], 0, -3) . " Hrs.";
-
-
-                $lista_admin_data[] = array_merge($registro,array(
-                "fecha"         => $fecha,
-                "thisClass"     => $thisClass,
-                "nuevo_estado"  => ($registro["status"] == 1 ? "desactivar" : "activar")
-		));
-
-
-                $iRow++;
+                }
         }
+
+        header('Content-Type: application/json; charset=utf-8');
+        echo $callback . '(' . json_encode($dataRows). ');';
+        die;
+} else {
+        $MyMetatag->setJs("/public/plugins/jqGrid/js/jquery.jqGrid.js");
+        $MyMetatag->setJs("/public/plugins/jqGrid/js/i18n/grid.locale-$lang_root.js");
+        $MyMetatag->setCSS("/public/plugins/jqGrid/css/ui.jqgrid.css");
 }
-
-
-
-
-$MyFrankyMonster->setPHPFile(getVista("admin/template/grid.phtml"));
-$title_grid = _seo("Redirecciones 301");
-$class_grid = "cont_301";
-$deleteFunction = "EliminarRedireccion";
-$error_grid = _seo("No hay redireccionamientos registrados");
-$frm_constante_link = FRM_REDIRECCIONES_301;
-$titulo_columnas_grid = array("fecha" => _seo("Fecha"),"url" => _seo("Url"), "redireccion" =>  _seo("Redirección"));
-$value_columnas_grid = array("fecha" ,"url" , "redireccion");
-
-
-$css_columnas_grid = array("fecha" => "w-xxxx-2" ,"url" => "w-xxxx-4", "redireccion" => "w-xxxx-4" );
-
-$permisos_grid = "administrar_redirecciones_301";
-$MyFiltrosForm = new filtrosForm('paginar');
-$MyFiltrosForm->setMobile($Mobile_detect->isMobile());
-$MyFiltrosForm->addBusca();
-$MyFiltrosForm->addSubmit();
-
-$MyFiltrosForm->setAtributoInput("busca_b", "value",$busca_b);
 ?>

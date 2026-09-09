@@ -1,14 +1,14 @@
 <?php
 
 
-function EliminarRedireccion($id,$status)
+function EliminarRedireccion(string $id,int $status)
 {
 	global $MyRedireccion;
         global $MyAccessList;
         global $MyMessageAlert;
-        
+        $Tokenizer = new \Franky\Haxor\Tokenizer;
         $redireccionEntity = new Base\entity\redireccionesEntity();
-        $redireccionEntity->setId($id);
+        $redireccionEntity->setId(addslashes($Tokenizer->decode($id)));
         $redireccionEntity->setStatus($status);
         $respuesta = null;
         if($MyAccessList->MeDasChancePasar("administrar_redirecciones_301"))
@@ -30,17 +30,18 @@ function EliminarRedireccion($id,$status)
 	return $respuesta;
 }
 
-function EliminarSeo($id,$status)
+function EliminarSeo(string $id, int $status)
 {
         global $MyAccessList;
         global $MyMessageAlert;
 
+        $Tokenizer = new \Franky\Haxor\Tokenizer;
         $MySeo              = new \Seo\model\SeoModel();
         $SeoEntity              = new \Seo\entity\SeoEntity();
         $respuesta = null;
         if($MyAccessList->MeDasChancePasar("administrar_seo"))
         {
-            $SeoEntity->id(addslashes($id));
+            $SeoEntity->id(addslashes($Tokenizer->decode($id)));
             $SeoEntity->status(addslashes($status));
             if($MySeo->save($SeoEntity->getArrayCopy()) == REGISTRO_SUCCESS)
             {
